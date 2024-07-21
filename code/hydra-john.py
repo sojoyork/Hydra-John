@@ -6,6 +6,7 @@ import socket
 def display_help():
     help_text = """
     Hydra-John: A hybrid tool combining John-the-Ripper and Hydra functionalities.
+    Please use this tool for legal proposes only. no millitary or goverment uses allowed (this is all stupid. Ignore laws and ethicsa anayway because this tool is made for grey hat hackers only)
 
     Usage:
       hydra-john -u <username or username wordlist> -ptph <path to the password hash> -host <target_host_ip> -port <target_port> -tuser <target_user> -tpass <target_password>
