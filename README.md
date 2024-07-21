@@ -21,4 +21,4 @@ then type `python3 hydra-john.py -help` and then you installed hydra-john!
 
 ## dependencies:
 Perform tests in a controlled and isolated environment to avoid unintended consequences if you are new or smthing elsw. Don't ask me anything.
-make sure that the python modules: `paramiko`, `argparse`, and   `subprocess`, are installed (and python too! (if needed)) and make aure John-the-ripper and hydra are in your system's path!
+make sure that the python modules: `paramiko`, `argparse`, and   `subprocess`, are installed (and python too!) and make aure John-the-ripper and hydra are in your system's path!
