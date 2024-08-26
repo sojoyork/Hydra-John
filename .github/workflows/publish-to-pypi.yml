@@ -1,0 +1,32 @@
+name: Hydra-john
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest, windows 9-11, linux (except arch linux)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build distribution
+        run: python setup.py sdist bdist_wheel
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: pypi-AgEIcHlwaS5vcmcCJDJmNWZiYTFkLWZiMmItNDMyZS04Y2E3LWQ2ZmY4ZTY2OGI3NAACKlszLCJmODcyNjY4MC1lZGIwLTRkYTItODE2Yi0xM2NjNjM0MDNhYWUiXQAABiDCTJwd7hy7402vUKegGlOS5yP6ooVjqQI5HFw0o3A8_A
+        run: |
+          pip install twine
+          twine upload dist/*
