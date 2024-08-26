@@ -17,6 +17,7 @@ print("""
 | RussianDude122: Programmer                                                                                        |
 | AmericanBoi: Contributer                                                                                          |
 | Sojoyork: Contributer                                                                                             |
+| BlazeyBoi: Contributer                                                                                            |
 |-------------------------------------------------------------------------------------------------------------------|
 
 
