@@ -23,6 +23,12 @@ then type `python3 hydra-john.py -help` and then you installed hydra-john!
 Perform tests in a controlled and isolated environment to avoid unintended consequences if you are new or smthing elsw. Don't ask me anything.
 make sure that the python modules: `paramiko`, `argparse`, and   `subprocess`, are installed (and python too!) and make aure John-the-ripper and hydra are in your system's path!
 
+## OS support
+- Windows: Yes
+- Linux/Unix: Yes
+- MacOS: No
+- Other: idk
+
 ### What to do?
 Let it do what it will do and make it CHAOS or a MONSTROSITY, Why? Cuz this thing is under the MIT licence and MIT licence allows you to do ANYTHING! GetOnTheGo!
 
